@@ -92,4 +92,9 @@ public class MainController {
         return "redirect:/admin/users";
     }
 
+    @GetMapping("/login")
+    public String errorLogin() {
+        return "login";
+    }
+
 }
