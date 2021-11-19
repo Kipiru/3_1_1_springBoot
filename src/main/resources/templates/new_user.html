@@ -24,15 +24,11 @@
         <p>password: <label>
             <input type="password" th:field="*{password}"/>
         </label></p>
-<!--        <p>Role: <label>-->
-<!--            <input type="checkbox" name="allRoles" th:each="role : ${allRoles}"-->
-<!--                   th:text="${role.role}"-->
-<!--                   th:value="${role.role}"-->
-<!--                   th:field="*{roles}" />-->
-<!--        </label></p>-->
         <p>Role: <label>
-        <input type="checkbox" name="addRoles" value="ROLE_ADMIN"/> ADMIN
-        <input type="checkbox" name="addRoles" value="ROLE_USER"/> USER
+            <input type="checkbox" name="roles" th:each="role : ${allRoles}"
+                   th:text="${role.role}"
+                   th:value="${role.role}"
+                   th:field="*{roles}" />
         </label></p>
         <p><input type="submit" value="Save"/> <input type="reset" value="Reset"/></p>
     </form>

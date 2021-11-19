@@ -66,7 +66,7 @@ public class MainController {
 
     @PostMapping("/admin/save")
     public String create(@ModelAttribute("user") User user,
-                         @RequestParam("addRoles") String[] roles) {
+                         @RequestParam("roles") String[] roles) {
         userService.create(user, roles);
         return "redirect:/admin/users";
     }
