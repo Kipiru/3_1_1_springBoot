@@ -78,7 +78,7 @@ public class MainController {
 
     @PostMapping("/admin/update/{id}")
     public String updateUser(@ModelAttribute("user") User user,
-                             @RequestParam("addRoles") String[] roles) {
+                             @RequestParam("roles") String[] roles) {
         userService.updateUser(user, roles);
         return "redirect:/admin/users";
     }
