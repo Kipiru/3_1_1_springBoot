@@ -10,6 +10,7 @@ import web.model.Role;
 import web.model.User;
 import web.service.RoleService;
 import web.service.UserService;
+
 import java.util.List;
 
 
@@ -44,31 +45,45 @@ public class MainController {
         return "user";
     }
 
-    @GetMapping("/admin/users")
+    @GetMapping("/admin")
     public ModelAndView allUsers() {
         List<User> userList = userService.getAll();
         List<Role> roles = roleService.getAll();
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("users");
+        modelAndView.setViewName("admin");
         modelAndView.addObject("userList", userList);
         modelAndView.addObject("roles", roles);
+
+        User user = new User();
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("allRoles", roleService.getAll());
         return modelAndView;
     }
 
 
-    @GetMapping("/admin/new")
-    public String newUser(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        model.addAttribute("allRoles", roleService.getAll());
-        return "new_user";
-    }
+//    @GetMapping("/admin/new")
+//    public ModelAndView newUser() {
+//        User user = new User();
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("new_user");
+//        modelAndView.addObject("user", user);
+//        modelAndView.addObject("allRoles", roleService.getAll());
+//        return modelAndView;
+//    }
+
+//    @GetMapping("/admin/new")
+//    public String newUser(Model model) {
+//        User user = new User();
+//        model.addAttribute("user", user);
+//        model.addAttribute("allRoles", roleService.getAll());
+//        return "new_user";
+//    }
 
     @PostMapping("/admin/save")
     public String create(@ModelAttribute("user") User user,
                          @RequestParam("roles") String[] roles) {
         userService.create(user, roles);
-        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
 
     @GetMapping("/admin/edit/{id}")

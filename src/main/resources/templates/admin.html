@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Admin panel</title>
+    <link rel="stylesheet" href="../static/assets/bootstrap/css/bootstrap.min.css"
+          th:href="@{/assets/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/assets/css/Login-Form-Clean.css"
+          th:href="@{/assets/css/Login-Form-Clean.css}">
+    <link rel="stylesheet" href="../static/assets/css/styles.css"
+          th:href="@{/assets/css/styles.css}">
+</head>
+
+<body>
+<table class="table" style="background-color: #000000;color: rgb(255,255,255);height: 50px;width: 100%;">
+    <thead>
+    <tr></tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="text-right" style="color: rgb(255,255,255);width: 100px;"><strong>name</strong></td>
+        <td style="color: rgb(255,255,255);width: 200px;">with roles:</td>
+        <td style="color: rgb(255,255,255);width: 300px;"><strong>Bold</strong></td>
+        <td class="text-right" style="background-color: #000000;"><a class="text-right" th:href="@{/logout}"
+                                                                     style="color: rgb(101,101,101);">Logout</a>
+        </td>
+    </tr>
+    <tr></tr>
+    </tbody>
+</table>
+<div class="table-responsive">
+    <table class="table">
+        <tbody>
+        <tr>
+            <td style="width: 200px;">
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-primary border rounded-0" type="button" style="width: 100%;">Admin
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-primary border rounded-0" type="button" style="width: 100%;">User
+                        </button>
+                    </div>
+                </div>
+            </td>
+
+            <td style="width: 1000px;">
+                <div class="row" style="width: 1000px;">
+                    <div class="container bg-light text-dark">
+                        <h1>Admin panel</h1>
+                        <!--                        <div>-->
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" role="tab" data-toggle="tab"
+                                   href="#users">Users table</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" role="tab" data-toggle="tab" href="#new">New
+                                    user</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" role="tabpanel" id="users">
+                                <div class="row">
+                                    <div class="col">
+                                        <h1 style="font-size: 25px;">All users</h1>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th style="width: 88px;">ID</th>
+                                                    <th>Name</th>
+                                                    <th style="width: 194px;">Last Name</th>
+                                                    <th style="width: 109px;">Age</th>
+                                                    <th style="width: 201px;">Password</th>
+                                                    <th style="width: 182px;">Role</th>
+                                                    <th style="width: 148px;">Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:if="${userList.empty}">
+                                                    <td colspan="7"> No Users Available</td>
+                                                </tr>
+                                                <tr th:each="user : ${userList}">
+                                                    <td><span th:text="${user.id}">  </span></td>
+                                                    <td><span th:text="${user.name}">  </span></td>
+                                                    <td><span th:text="${user.lastName}">  </span></td>
+                                                    <td><span th:text="${user.age}"> </span></td>
+                                                    <td><span th:text="${user.password}"> </span></td>
+
+                                                    <td><span th:text="${user.roles}"> </span></td>
+                                                    <td>
+                                                        <div class="btn-group" role="group">
+
+                                                            <a th:href="@{/admin/edit/{id}(id=${user.id})}"
+                                                               class="btn btn-primary"
+                                                               type="button"
+                                                               style="background-color: rgb(60,154,174);">Edit</a>
+                                                            <a th:href="@{/admin/delete/{id}(id=${user.id})}"
+                                                               class="btn btn-primary"
+                                                               type="button"
+                                                               style="background-color: rgb(177,61,61);">Delete</a>
+                                                        </div>
+                                                    </td>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container tab-pane fade" role="tabpanel" id="new">
+                                <form>
+                                    <form action="#" th:action="@{/admin/save}" th:object="${user}" th:method="post">
+                                        <p><label>
+                                        </label></p>
+                                        <p>Name: <label>
+                                            <input type="text" th:field="*{name}"/>
+                                        </label></p>
+                                        <p>Lastname: <label>
+                                            <input type="text" th:field="*{lastName}"/>
+                                        </label></p>
+                                        <p>age: <label>
+                                            <input type="text" th:field="*{age}"/>
+                                        </label></p>
+                                        <p>password: <label>
+                                            <input type="password" th:field="*{password}"/>
+                                        </label></p>
+                                        <p>Role: <label>
+                                            <input type="checkbox" name="roles" th:each="role : ${allRoles}"
+                                                   th:text="${role.role}"
+                                                   th:value="${role.role}"
+                                                   th:field="*{roles}" />
+                                        </label></p>
+                                        <p><input type="submit" value="Save"/> <input type="reset" value="Reset"/></p>
+                                    </form>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script src="/static/assets/js/jquery.min.js" th:src="@{/assets/js/jquery.min.js}"></script>
+<script src="/static/assets/bootstrap/js/bootstrap.min.js" th:src="@{/assets/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+
+</html>
+
+
