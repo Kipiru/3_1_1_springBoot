@@ -61,24 +61,6 @@ public class MainController {
     }
 
 
-//    @GetMapping("/admin/new")
-//    public ModelAndView newUser() {
-//        User user = new User();
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("new_user");
-//        modelAndView.addObject("user", user);
-//        modelAndView.addObject("allRoles", roleService.getAll());
-//        return modelAndView;
-//    }
-
-//    @GetMapping("/admin/new")
-//    public String newUser(Model model) {
-//        User user = new User();
-//        model.addAttribute("user", user);
-//        model.addAttribute("allRoles", roleService.getAll());
-//        return "new_user";
-//    }
-
     @PostMapping("/admin/save")
     public String create(@ModelAttribute("user") User user,
                          @RequestParam("roles") String[] roles) {

@@ -15,11 +15,11 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false, unique = true)
     private String role;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "roles")
-
     private Set<User> users = new HashSet<>();
 
     public Role() {
