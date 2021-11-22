@@ -56,7 +56,7 @@ public class MainController {
 
         User user = new User();
         modelAndView.addObject("user", user);
-        modelAndView.addObject("allRoles", roleService.getAll());
+       // modelAndView.addObject("allRoles", roleService.getAll());
         return modelAndView;
     }
 
@@ -86,7 +86,7 @@ public class MainController {
     @RequestMapping("/admin/delete/{id}")
     public String deleteUserForm(@PathVariable int id) {
         userService.delete(userService.readById(id));
-        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
 
     @GetMapping("/login")
