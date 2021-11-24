@@ -1,7 +1,9 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,7 @@ import web.model.User;
 import web.service.RoleService;
 import web.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,18 +39,22 @@ public class MainController {
         return modelAndView;
     }
 
-    @GetMapping("/user")
-    public String user(@AuthenticationPrincipal User user, Model model) {
-        User currentUser = userService.getUserByName(user.getName());
-        List<Role> roles = roleService.getAll();
-        model.addAttribute("user", currentUser);
-        model.addAttribute("roles", roles);
-        return "user";
-    }
+//    @GetMapping("/user")
+//    public String user(@AuthenticationPrincipal User curUser, Model model) {
+//        User currentUser = userService.getUserByName(curUser.getName());
+////        List<Role> roles = roleService.getAll();
+//        model.addAttribute("currentUser", currentUser);
+////        model.addAttribute("roles", roles);
+//        return "admin";
+//    }
 
-    @GetMapping("/admin")
-    public ModelAndView allUsers(@AuthenticationPrincipal User cUser) {
-        User currentUser = userService.getUserByName(cUser.getName());
+    @GetMapping({"/admin", "/user"})
+    public ModelAndView allUsers(
+//            @AuthenticationPrincipal User curUser
+            Authentication auth
+    ) {
+        UserDetails currentUser = userService.loadUserByUsername(auth.getName());
+//                userService.getUserByName(curUser.getName());
         List<User> userList = userService.getAll();
         List<Role> roles = roleService.getAll();
         ModelAndView modelAndView = new ModelAndView();
@@ -58,7 +65,7 @@ public class MainController {
 
         User user = new User();
         modelAndView.addObject("user", user);
-       // modelAndView.addObject("allRoles", roleService.getAll());
+        // modelAndView.addObject("allRoles", roleService.getAll());
         return modelAndView;
     }
 
