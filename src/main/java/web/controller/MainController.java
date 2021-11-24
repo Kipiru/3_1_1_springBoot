@@ -46,13 +46,15 @@ public class MainController {
     }
 
     @GetMapping("/admin")
-    public ModelAndView allUsers() {
+    public ModelAndView allUsers(@AuthenticationPrincipal User cUser) {
+        User currentUser = userService.getUserByName(cUser.getName());
         List<User> userList = userService.getAll();
         List<Role> roles = roleService.getAll();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin");
         modelAndView.addObject("userList", userList);
         modelAndView.addObject("roles", roles);
+        modelAndView.addObject("currentUser", currentUser);
 
         User user = new User();
         modelAndView.addObject("user", user);
@@ -68,19 +70,25 @@ public class MainController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/edit/{id}")
-    public String editUserForm(@PathVariable int id, Model model) {
-        User user = userService.readById(id);
-        model.addAttribute("user", user);
-        model.addAttribute("allRoles", roleService.getAll());
-        return "edit";
-    }
+//    @GetMapping("/admin/edit/{id}")
+//    public String editUserForm(@PathVariable int id, Model model) {
+//        User editUser = userService.readById(id);
+//        model.addAttribute("editUser", editUser);
+//        model.addAttribute("editRoles", editUser.getRoles());
+//        return "edit";
+//    }
+
+//    @PostMapping("/admin/update/{id}")
+//    public String updateUser(@ModelAttribute("editUser") User user,
+//                             @RequestParam("editRoles") String[] roles) {
+//        userService.updateUser(user, roles);
+//        return "redirect:/admin";
+//    }
 
     @PostMapping("/admin/update/{id}")
-    public String updateUser(@ModelAttribute("user") User user,
-                             @RequestParam("roles") String[] roles) {
+    public String updateUser(User user, String[] roles) {
         userService.updateUser(user, roles);
-        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
 
     @RequestMapping("/admin/delete/{id}")
