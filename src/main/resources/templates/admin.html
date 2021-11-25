@@ -314,10 +314,12 @@
                     </div>
                 </div>
                 <div  th:class="'tab-pane fade' + ${#authorization.expression('hasAuthority(''ROLE_ADMIN'')') ? ' ' : ' show active'}"
-                        th:if="${#authorization.expression('hasAuthority(''ROLE_USER'')')}"
-                     id="userTabLink" role="tabpanel" aria-labelledby="userView">
+                      id="userTabLink" role="tabpanel" aria-labelledby="userView">
+
 
                     <div class="table-responsive">
+                        <h1>User information page</h1>
+                        <h2>About user</h2>
                                                 <table class="table table-striped">
                                                     <thead>
                                                     <tr>
