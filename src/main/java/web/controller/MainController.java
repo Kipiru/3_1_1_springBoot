@@ -50,11 +50,11 @@ public class MainController {
 
     @GetMapping({"/admin", "/user"})
     public ModelAndView allUsers(
-//            @AuthenticationPrincipal User curUser
-            Authentication auth
+         @AuthenticationPrincipal User curUser
+//           Authentication auth
     ) {
-        UserDetails currentUser = userService.loadUserByUsername(auth.getName());
-//                userService.getUserByName(curUser.getName());
+//        UserDetails currentUser = userService.loadUserByUsername(auth.getName());
+               User currentUser = userService.getUserByName(curUser.getName());
         List<User> userList = userService.getAll();
         List<Role> roles = roleService.getAll();
         ModelAndView modelAndView = new ModelAndView();

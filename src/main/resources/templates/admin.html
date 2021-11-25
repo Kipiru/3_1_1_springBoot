@@ -19,12 +19,12 @@
     <tr></tr>
     </thead>
     <tbody>
+    <!--    HEADER WITH CURRENT USER, HIS ROLES AND LOGOUT LINK-->
     <tr>
         <td class="text-right" style="color: rgb(255,255,255);width: 100px;"><strong><p
                 th:text="${currentUser.name}"></p></strong></td>
         <td style="color: rgb(255,255,255);width: 200px;">with roles:</td>
         <td style="color: rgb(255,255,255);width: 300px;"><strong><p th:text="${currentUser.roles}"></p></strong></td>
-        </td>
         <td class="text-right" style="background-color: #000000;"><a class="text-right" th:href="@{/logout}"
                                                                      style="color: rgb(101,101,101);">Logout</a>
         </td>
@@ -36,26 +36,37 @@
     <table class="table">
         <tbody>
         <tr>
+            <!--            BUTTONS ADMIN AND USER-->
             <td style="width: 200px;">
-                <div class="row">
-                    <div class="col">
-                        <div sec:authorize="hasRole('ROLE_ADMIN')">
-                            <button class="btn btn-primary border rounded-0" type="button" style="width: 100%;"
-                                    id="adminTab" href="#adminTabLink">Admin
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <button class="btn btn-primary border rounded-0" type="button" style="width: 100%;">User
-                        </button>
-                    </div>
+<!--                <div class="row">-->
+<!--                    <div class="col">-->
+<!--                        <div sec:authorize="hasRole('ROLE_ADMIN')">-->
+<!--                            <button class="btn btn-primary border rounded-0" type="button" style="width: 100%;"-->
+<!--                                    id="adminTab" href="#adminTabLink">Admin-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col">-->
+<!--                        <button class="btn btn-primary border rounded-0" type="button" style="width: 100%;"-->
+<!--                                id="userTab" href="#userTabLink">User-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+                    <a  th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="nav-link active"
+                        data-toggle="pill" href="#adminTabLink" role="tab" aria-controls="adminView" aria-selected="true">ADMIN</a>
+                    <a class="nav-link" data-toggle="pill" href="#userTabLink" role="tab"
+                       aria-controls="userView" aria-selected="false">USER</a>
                 </div>
             </td>
 
+
             <td style="width: 1000px;">
-                <div sec:authorize="hasRole('ROLE_ADMIN')" id="adminTabLink" role="tabpanel">
+                <!--            ADMIN PANEL "container tab-pane active"-->
+                <div class="tab-pane fade show active" th:if="${#authorization.expression('hasRole(''ADMIN'')')}" id="adminTabLink"
+                     role="tabpanel" aria-labelledby="adminView">
                     <div class="row" style="width: 1000px;">
                         <div class="container bg-light text-dark">
                             <h1>Admin panel</h1>
@@ -298,9 +309,42 @@
 
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
+                <div  th:class="'tab-pane fade' + ${#authorization.expression('hasAuthority(''ROLE_ADMIN'')') ? ' ' : ' show active'}"
+                        th:if="${#authorization.expression('hasAuthority(''ROLE_USER'')')}"
+                     id="userTabLink" role="tabpanel" aria-labelledby="userView">
+
+                    <div class="table-responsive">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th style="width: 88px;">ID</th>
+                                                        <th>Name</th>
+                                                        <th style="width: 194px;">Last Name</th>
+                                                        <th style="width: 109px;">Age</th>
+                                                        <th style="width: 201px;">Password</th>
+                                                        <th style="width: 182px;">Role</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td><span th:text="${currentUser.id}">  </span></td>
+                                                        <td><span th:text="${currentUser.name}">  </span></td>
+                                                        <td><span th:text="${currentUser.lastName}">  </span></td>
+                                                        <td><span th:text="${currentUser.age}"> </span></td>
+                                                        <td><span th:text="${currentUser.password}"> </span></td>
+                                                        <td><span th:text="${currentUser.roles}"> </span></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                </div>
+
+
             </td>
         </tr>
         </tbody>
