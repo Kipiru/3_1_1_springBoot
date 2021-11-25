@@ -39,9 +39,10 @@
             <!--            BUTTONS ADMIN AND USER-->
             <td style="width: 200px;">
                 <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
-                    <a  th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="nav-link active"
-                        data-toggle="pill" href="#adminTabLink" role="tab" aria-controls="adminView" aria-selected="true">ADMIN</a>
-                    <a class="nav-link" data-toggle="pill" href="#userTabLink" role="tab"
+                    <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" class="nav-link active"
+                       data-toggle="pill" href="#adminTabLink" role="tab" aria-controls="adminView"
+                       aria-selected="true">ADMIN</a>
+                    <a th:if="${#authorization.expression('hasAuthority(''ROLE_USER'')')}" class="nav-link" data-toggle="pill" href="#userTabLink" role="tab"
                        aria-controls="userView" aria-selected="false">USER</a>
                 </div>
             </td>
@@ -49,7 +50,8 @@
 
             <td style="width: 1000px;">
                 <!--            ADMIN PANEL "container tab-pane active"-->
-                <div class="tab-pane fade show active" th:if="${#authorization.expression('hasRole(''ADMIN'')')}" id="adminTabLink"
+                <div class="tab-pane fade show active" th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}"
+                     id="adminTabLink"
                      role="tabpanel" aria-labelledby="adminView">
                     <div class="row" style="width: 1000px;">
                         <div class="container bg-light text-dark">
@@ -263,37 +265,38 @@
                         </div>
                     </div>
                 </div>
-                <div  th:class="'tab-pane fade' + ${#authorization.expression('hasAuthority(''ROLE_ADMIN'')') ? ' ' : ' show active'}"
-                      id="userTabLink" role="tabpanel" aria-labelledby="userView">
+                <div th:if="${#authorization.expression('hasAuthority(''ROLE_USER'')')}"
+                     th:class="'tab-pane fade' + ${#authorization.expression('hasAuthority(''ROLE_ADMIN'')') ? ' ' : ' show active'}"
+                     id="userTabLink" role="tabpanel" aria-labelledby="userView">
 
 
                     <div class="table-responsive">
                         <h1>User information page</h1>
                         <h2>About user</h2>
-                                                <table class="table table-striped">
-                                                    <thead>
-                                                    <tr>
-                                                        <th style="width: 88px;">ID</th>
-                                                        <th>Name</th>
-                                                        <th style="width: 194px;">Last Name</th>
-                                                        <th style="width: 109px;">Age</th>
-                                                        <th style="width: 201px;">Password</th>
-                                                        <th style="width: 182px;">Role</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        <td><span th:text="${currentUser.id}">  </span></td>
-                                                        <td><span th:text="${currentUser.name}">  </span></td>
-                                                        <td><span th:text="${currentUser.lastName}">  </span></td>
-                                                        <td><span th:text="${currentUser.age}"> </span></td>
-                                                        <td><span th:text="${currentUser.password}"> </span></td>
-                                                        <td><span th:text="${currentUser.roles}"> </span></td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th style="width: 88px;">ID</th>
+                                <th>Name</th>
+                                <th style="width: 194px;">Last Name</th>
+                                <th style="width: 109px;">Age</th>
+                                <th style="width: 201px;">Password</th>
+                                <th style="width: 182px;">Role</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><span th:text="${currentUser.id}">  </span></td>
+                                <td><span th:text="${currentUser.name}">  </span></td>
+                                <td><span th:text="${currentUser.lastName}">  </span></td>
+                                <td><span th:text="${currentUser.age}"> </span></td>
+                                <td><span th:text="${currentUser.password}"> </span></td>
+                                <td><span th:text="${currentUser.roles}"> </span></td>
+                            </tr>
+                            </tbody>
+                        </table>
 
-                                            </div>
+                    </div>
                 </div>
 
 
