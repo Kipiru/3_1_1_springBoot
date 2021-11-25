@@ -1,19 +1,14 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import web.model.Role;
 import web.model.User;
 import web.service.RoleService;
 import web.service.UserService;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,22 +34,9 @@ public class MainController {
         return modelAndView;
     }
 
-//    @GetMapping("/user")
-//    public String user(@AuthenticationPrincipal User curUser, Model model) {
-//        User currentUser = userService.getUserByName(curUser.getName());
-////        List<Role> roles = roleService.getAll();
-//        model.addAttribute("currentUser", currentUser);
-////        model.addAttribute("roles", roles);
-//        return "admin";
-//    }
-
     @GetMapping({"/admin", "/user"})
-    public ModelAndView allUsers(
-         @AuthenticationPrincipal User curUser
-//           Authentication auth
-    ) {
-//        UserDetails currentUser = userService.loadUserByUsername(auth.getName());
-               User currentUser = userService.getUserByName(curUser.getName());
+    public ModelAndView allUsers(@AuthenticationPrincipal User curUser) {
+        User currentUser = userService.getUserByName(curUser.getName());
         List<User> userList = userService.getAll();
         List<Role> roles = roleService.getAll();
         ModelAndView modelAndView = new ModelAndView();
@@ -62,10 +44,8 @@ public class MainController {
         modelAndView.addObject("userList", userList);
         modelAndView.addObject("roles", roles);
         modelAndView.addObject("currentUser", currentUser);
-
         User user = new User();
         modelAndView.addObject("user", user);
-        // modelAndView.addObject("allRoles", roleService.getAll());
         return modelAndView;
     }
 
@@ -77,20 +57,6 @@ public class MainController {
         return "redirect:/admin";
     }
 
-//    @GetMapping("/admin/edit/{id}")
-//    public String editUserForm(@PathVariable int id, Model model) {
-//        User editUser = userService.readById(id);
-//        model.addAttribute("editUser", editUser);
-//        model.addAttribute("editRoles", editUser.getRoles());
-//        return "edit";
-//    }
-
-//    @PostMapping("/admin/update/{id}")
-//    public String updateUser(@ModelAttribute("editUser") User user,
-//                             @RequestParam("editRoles") String[] roles) {
-//        userService.updateUser(user, roles);
-//        return "redirect:/admin";
-//    }
 
     @PostMapping("/admin/update/{id}")
     public String updateUser(User user, String[] roles) {
