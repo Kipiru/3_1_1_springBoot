@@ -42,7 +42,8 @@
                     <a th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" class="nav-link active"
                        data-toggle="pill" href="#adminTabLink" role="tab" aria-controls="adminView"
                        aria-selected="true">ADMIN</a>
-                    <a th:if="${#authorization.expression('hasAuthority(''ROLE_USER'')')}" class="nav-link" data-toggle="pill" href="#userTabLink" role="tab"
+                    <a th:if="${#authorization.expression('hasAuthority(''ROLE_USER'')')}" class="nav-link"
+                       data-toggle="pill" href="#userTabLink" role="tab"
                        aria-controls="userView" aria-selected="false">USER</a>
                 </div>
             </td>
@@ -50,7 +51,8 @@
 
             <td style="width: 1000px;">
                 <!--            ADMIN PANEL "container tab-pane active"-->
-                <div class="tab-pane fade show active" th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}"
+                <div class="tab-pane fade show active"
+                     th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}"
                      id="adminTabLink"
                      role="tabpanel" aria-labelledby="adminView">
                     <div class="row" style="width: 1000px;">
@@ -224,6 +226,10 @@
                                     <form th:method="POST" th:action="@{/admin/save}" th:object="${user}">
                                         <div>
                                             <div class="form-group">
+                                                <input type="hidden" class="form-control" id="ID"
+                                                       th:value="${user.id}"
+                                                       th:name="id"
+                                                       readonly>
                                                 <label for="Name" class="text-center" style="width: 240px;">Name</label>
                                                 <input type="text" class="form-control" id="Name"
                                                        th:value="*{name}" th:name="name" required="true"
@@ -233,7 +239,7 @@
                                                        style="width: 240px;">Lastname</label>
                                                 <input type="text" class="form-control" id="Lastname"
                                                        th:value="*{lastName}"
-                                                       th:name="email" required="true"
+                                                       th:name="lastName" required="true"
                                                        placeholder="input your lastname">
                                             </div>
                                             <div class="form-group">
