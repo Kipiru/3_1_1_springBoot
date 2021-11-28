@@ -38,14 +38,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
 
-//    @Override
-//    @Transactional
-//    public void create(User user, String[] roles) {
-//        user.setRoles(roleService.getRoleSet(roles));
-//        userDao.create(user);
-//    }
-
-
     @Override
     @Transactional(readOnly = true)
     public User readById(int id) {
@@ -55,13 +47,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public void delete(User user) {
-        userDao.delete(user);
+    public boolean delete(User user) {
+        if ((userDao.findById(user.getId())).isPresent()) {
+            userDao.delete(user);
+            return true;
+        }
+        return false;
     }
 
     @Override
     @Transactional
-    public boolean updateUser(User user, Integer id) {
+    public boolean updateUser(User user, int id) {
         Optional<User> userFromDb = userDao.findById(id);
         if (userFromDb.isPresent()) {
             userFromDb.get().setName(user.getName());

@@ -13,9 +13,9 @@ public interface UserService {
 
     User readById(int id);
 
-    void delete(User user);
+    boolean delete(User user);
 
-    boolean updateUser(User user, Integer id);
+    boolean updateUser(User user, int id);
 
     User getUserByName(String name);
 

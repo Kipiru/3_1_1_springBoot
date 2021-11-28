@@ -88,16 +88,17 @@ public class MainController {
 //    }
 
     @PutMapping("/admin/update/{id}")
-    public ResponseEntity<Object> updateUser(@PathVariable(value = "id") Integer id, @RequestBody User user) {
+    public ResponseEntity<?> updateUser(@PathVariable(value = "id") int id, @RequestBody User user) {
         boolean updated = userService.updateUser(user, id);
         return updated ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+                : new ResponseEntity<>("Wrong user ID", HttpStatus.NOT_MODIFIED);
     }
 
-    @RequestMapping("/admin/delete/{id}")
-    public String deleteUserForm(@PathVariable int id) {
-        userService.delete(userService.readById(id));
-        return "redirect:/admin";
+    @DeleteMapping("/admin/delete/{id}")
+    public ResponseEntity<?> deleteUserForm(@PathVariable(value = "id") int id) {
+        boolean deleted = userService.delete(userService.readById(id));
+        return deleted ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>("Wrong user ID", HttpStatus.NOT_MODIFIED);
     }
 
     @GetMapping("/login")
