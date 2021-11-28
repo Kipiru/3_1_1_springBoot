@@ -15,12 +15,12 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserDao userDao;
-    private final RoleService roleService;
+
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, RoleService roleService) {
+    public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
-        this.roleService = roleService;
+
     }
 
 
@@ -41,15 +41,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public User readById(int id) {
-        return userDao.findById(id).get();
+        if(userDao.findById(id).isPresent()) {
+            return userDao.findById(id).get();
+        }
+        return null;
     }
 
 
     @Override
     @Transactional
-    public boolean delete(User user) {
-        if ((userDao.findById(user.getId())).isPresent()) {
-            userDao.delete(user);
+    public boolean delete(int id) {
+        Optional<User> user = userDao.findById(id);
+        if (user.isPresent()) {
+            userDao.delete(user.get());
             return true;
         }
         return false;
