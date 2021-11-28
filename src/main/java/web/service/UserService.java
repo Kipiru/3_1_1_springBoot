@@ -8,13 +8,14 @@ public interface UserService {
 
     List<User> getAll();
 
-    void create(User user, String[] roles);
+    void create(User user);
+
 
     User readById(int id);
 
     void delete(User user);
 
-    void updateUser(User user, String[] roles);
+    boolean updateUser(User user, Integer id);
 
     User getUserByName(String name);
 

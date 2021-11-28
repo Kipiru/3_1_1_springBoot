@@ -1,6 +1,8 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +11,7 @@ import web.model.Role;
 import web.model.User;
 import web.service.RoleService;
 import web.service.UserService;
+
 import java.util.List;
 
 
@@ -34,34 +37,61 @@ public class MainController {
         return modelAndView;
     }
 
-    @GetMapping({"/admin", "/user"})
-    public ModelAndView allUsers(@AuthenticationPrincipal User curUser) {
-        User currentUser = userService.getUserByName(curUser.getName());
+//    @GetMapping({"/admin", "/user"})
+//    public ModelAndView allUsers(@AuthenticationPrincipal User curUser) {
+//        User currentUser = userService.getUserByName(curUser.getName());
+//        List<User> userList = userService.getAll();
+//        List<Role> roles = roleService.getAll();
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("admin");
+//        modelAndView.addObject("userList", userList);
+//        modelAndView.addObject("roles", roles);
+//        modelAndView.addObject("currentUser", currentUser);
+//        User user = new User();
+//        modelAndView.addObject("user", user);
+//        return modelAndView;
+//    }
+
+
+    @GetMapping("/admin")
+    public ResponseEntity<List<User>> allUsers() {
+
         List<User> userList = userService.getAll();
-        List<Role> roles = roleService.getAll();
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin");
-        modelAndView.addObject("userList", userList);
-        modelAndView.addObject("roles", roles);
-        modelAndView.addObject("currentUser", currentUser);
-        User user = new User();
-        modelAndView.addObject("user", user);
-        return modelAndView;
+
+        return userList != null && !userList.isEmpty()
+                ? new ResponseEntity<>(userList, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+//    @PostMapping("/admin/save")
+//    public String create(@ModelAttribute("user") User user,
+//                         @RequestParam("roles") String[] roles) {
+//        userService.create(user, roles);
+//        return "redirect:/admin";
+//    }
 
     @PostMapping("/admin/save")
-    public String create(@ModelAttribute("user") User user,
-                         @RequestParam("roles") String[] roles) {
-        userService.create(user, roles);
-        return "redirect:/admin";
+    public ResponseEntity<?> create(@RequestBody User user
+//            ,
+//                                 @RequestBody String[] roles
+    ) {
+//        userService.create(user, roles);
+        userService.create(user);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 
-    @PostMapping("/admin/update/{id}")
-    public String updateUser(User user, String[] roles) {
-        userService.updateUser(user, roles);
-        return "redirect:/admin";
+//    @PostMapping("/admin/update/{id}")
+//    public String updateUser(User user, String[] roles) {
+//        userService.updateUser(user, roles);
+//        return "redirect:/admin";
+//    }
+
+    @PutMapping("/admin/update/{id}")
+    public ResponseEntity<Object> updateUser(@PathVariable(value = "id") Integer id, @RequestBody User user) {
+        boolean updated = userService.updateUser(user, id);
+        return updated ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
     @RequestMapping("/admin/delete/{id}")

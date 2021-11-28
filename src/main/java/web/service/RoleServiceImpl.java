@@ -23,19 +23,19 @@ public class RoleServiceImpl implements RoleService{
     @Override
     @Transactional(readOnly = true)
     public List<Role> getAll() {
-        return roleDao.getAll();
+        return (List<Role>) roleDao.findAll();
     }
 
     @Override
     @Transactional
     public void create(Role role) {
-        roleDao.create(role);
+        roleDao.save(role);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Role readById(int id) {
-        return roleDao.readById(id);
+        return roleDao.findById(id).get();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class RoleServiceImpl implements RoleService{
     public Set<Role> getRoleSet(String[] role){
         Set<Role> roleSet = new HashSet<>();
         for (String roles : role) {
-            roleSet.add(roleDao.getByName(roles));
+            roleSet.add(roleDao.findRoleByRole(roles));
         }
         return roleSet;
     }
