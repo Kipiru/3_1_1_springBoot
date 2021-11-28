@@ -1,6 +1,5 @@
 package web.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,9 +7,9 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-@Entity(name = "User")
-
+@Entity
 public class User implements UserDetails {
 
     @Id
@@ -87,6 +86,9 @@ public class User implements UserDetails {
     public Set<Role> getRoles() {
         return roles;
     }
+//    public Set<String> getRoleNames() {
+//        return (Set<String>) roles.stream().map(Role::getRole).collect(Collectors.toList());
+//    }
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
