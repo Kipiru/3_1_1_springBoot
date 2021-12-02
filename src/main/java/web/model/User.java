@@ -83,11 +83,19 @@ public class User implements UserDetails {
         this.age = age;
     }
 
-    public Set<Role> getRoles() {
+     public Set<Role> getRoles() {
         return roles;
     }
 //    public Set<String> getRoleNames() {
 //        return (Set<String>) roles.stream().map(Role::getRole).collect(Collectors.toList());
+//    }
+//    public String getRoles() {
+//
+//        return roles.stream().map(x -> x.getRoles())
+//
+//                .distinct()
+//
+//                .collect(Collectors.joining(", "));
 //    }
 
     public void setRoles(Set<Role> roles) {
