@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDao;
 import web.model.User;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,12 +15,14 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserDao userDao;
+    private final RoleService roleService;
 
 
     @Autowired
-    public UserServiceImpl(UserDao userDao) {
+    public UserServiceImpl(UserDao userDao, RoleService roleService) {
         this.userDao = userDao;
 
+        this.roleService = roleService;
     }
 
 
@@ -70,7 +71,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userFromDb.get().setLastName(user.getLastName());
             userFromDb.get().setAge(user.getAge());
             userFromDb.get().setPassword(user.getPassword());
-            userFromDb.get().setRoles(user.getRoles());
+            userFromDb.get().setRoles(roleService.getRoleSet(user.getRoles()));
             userDao.save(userFromDb.get());
             return true;
         }

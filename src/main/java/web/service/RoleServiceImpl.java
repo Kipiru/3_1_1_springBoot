@@ -52,10 +52,10 @@ public class RoleServiceImpl implements RoleService{
 
     @Override
     @Transactional
-    public Set<Role> getRoleSet(String[] role){
+    public Set<Role> getRoleSet(Set<Role> role){
         Set<Role> roleSet = new HashSet<>();
-        for (String roles : role) {
-            roleSet.add(roleDao.findRoleByRole(roles));
+        for (Role roles : role) {
+            roleSet.add(roleDao.findRoleByRole(roles.getRole()));
         }
         return roleSet;
     }

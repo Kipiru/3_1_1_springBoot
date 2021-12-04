@@ -19,5 +19,5 @@ public interface RoleService {
     void updateRole(Role role);
 
 
-    Set<Role> getRoleSet(String[] role);
+    Set<Role> getRoleSet(Set<Role> role);
 }
