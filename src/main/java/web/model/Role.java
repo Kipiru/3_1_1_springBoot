@@ -13,10 +13,12 @@ import java.util.Set;
 @Entity
 public class Role implements GrantedAuthority {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
+            (strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false
+//            , unique = true
+    )
     private String role;
 
     @JsonBackReference
@@ -68,15 +70,49 @@ public class Role implements GrantedAuthority {
         if (this == o) return true;
         if (!(o instanceof Role)) return false;
 
-        Role role = (Role) o;
+        Role role1 = (Role) o;
 
-        return id != null ? id.equals(role.id) : role.id == null;
+        return role.equals(role1.role);
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        return role.hashCode();
     }
+
+    //    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//
+//        if (!(o instanceof Role))
+//            return false;
+//
+//        Role other = (Role) o;
+//
+//        return id != null &&
+//                id.equals(other.getId());
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return getClass().hashCode();
+//    }
+
+
+//        @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof Role)) return false;
+//
+//        Role role = (Role) o;
+//
+//        return id != null ? id.equals(role.id) : role.id == null;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return id != null ? id.hashCode() : 0;
+//    }
 
     @Override
     public String toString() {

@@ -1,5 +1,6 @@
 package web.dao;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import web.model.Role;
 import web.model.User;
@@ -7,7 +8,7 @@ import web.model.User;
 
 import java.util.List;
 
-public interface RoleDao extends CrudRepository<Role, Integer> {
+public interface RoleDao extends JpaRepository<Role, Integer> {
 
     Role findRoleByRole(String role);
 

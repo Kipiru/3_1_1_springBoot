@@ -8,7 +8,7 @@ public interface UserService {
 
     List<User> getAll();
 
-    void create(User user);
+    boolean create(User user);
 
 
     User readById(int id);

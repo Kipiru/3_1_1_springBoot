@@ -23,7 +23,7 @@ function buildTable(data) {
                         <td>${userRoles}</td>
                         <td>
                             <input type="button" class="button btn-info" id="show-edit-modal"
-                                   value="edit" onclick="showEditModal(${data[i].id})"/>
+                                   value="edit" onclick="showEditModalWindow(${data[i].id})"/>
                             <input type="button" class="button btn-danger"
                                   value="delete" onclick="deleteUser(${data[i].id})"/>
                         </td>
@@ -47,59 +47,71 @@ function updateData()
    location.reload();
 }
 
-function showEditModal(id) {
-    let url = '/admin/edit/' + id;
+function showEditModalWindow(id) {
+    let url = '/admin/user/' + id;
     fetch(url)
         .then(function (response) {
             return response.json();
         })
-        .then(function (data) {
-            console.log(data);
-            $("#editModal").modal();
-            $(".modal-body #id-for-good-to-edit").val(id);
-            $(".modal-body #name-old").val(data.goodsName);
-            $(".modal-body #description-old").val(data.goodsDescription);
-            $(".modal-body #price-old").val(data.goodsPrice);
+        .then(function (user) {
+            console.log(user);
+            $("#editModalWindow").modal();
+            $(".modal-body #ID").val(user.id);
+            $(".modal-body #Name").val(user.name);
+            $(".modal-body #Lastname").val(user.lastName);
+            $(".modal-body #Age").val(user.age);
+            $(".modal-body #Password").val(user.password);
+            $(".modal-body #Roles").val(user.roles);
+
             $(document).on("click", ".toUpdate", function () {
-                editGoodFunction(id);
-                window.location = "http://localhost:8080/";
+                updateUser();
+                // window.location = "http://localhost:8080/admin/users";
             });
         })
         .catch(function (err) {
             console.log(err);
         });
 }
-//
-//
-// function editGoodFunction(id) {
-//
-//     let idgood = id;
-//     let namegood = document.getElementById("name-old").value;
-//     let descriptiongood = document.getElementById("description-old").value;
-//     let pricegood = document.getElementById("price-old").value;
-//
-//     let good =
-//         {
-//             goodsID: idgood,
-//             goodsName: namegood,
-//             goodsDescription: descriptiongood,
-//             goodsPrice: pricegood,
-//             providerSet: null
-//         }
-//
-//     const urlUPDATE = 'http://localhost:8080/api/v1/goods/' + id;
-//     const putMethod = {
-//         method: 'PUT',
-//         headers: {
-//             'Content-type': 'application/json; charset=UTF-8' // Indicates the content
-//         },
-//         body: JSON.stringify(good) // We send data in JSON format
-//     }
-//     fetch(urlUPDATE, putMethod)
-//         .then(response => response.json())
-//         .then(data => console.log(data)) // Manipulate the data retrieved back, if we want to do something with it
-//         .catch(err => console.log(err))
-// };
+
+
+async function updateUser() {
+
+    let userId = document.getElementById("ID").value;
+    let userName = document.getElementById("Name").value;
+    let userLastname = document.getElementById("Lastname").value;
+    let userAge = document.getElementById("Age").value;
+    let userPassword = document.getElementById("Password").value;
+    let rolesSet = document.getElementById("Roles").value;
+    // let rolesSet = $('#Roles').val();
+
+    // const iteratorRoles = rolesSet.values();
+    let user =
+        {
+            id: userId,
+            name: userName,
+            lastName: userLastname,
+            age: userAge,
+            password: userPassword,
+            roles: [rolesSet]
+            // roles: userRoles
+            // roles: [{
+            //     role: iteratorRoles.next().value
+            // }]
+        }
+
+    const urlUPDATE = '/admin/update/' + userId;
+    const putMethod = {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8'
+        },
+        body: JSON.stringify(user)
+    }
+    fetch(urlUPDATE, putMethod)
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err))
+}
 //
 // function createNewFunction() {
 //     let nameForNew = document.getElementById("nameForNew").value;

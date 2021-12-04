@@ -66,6 +66,11 @@ public class MainController {
 //                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 //    }
 
+    @GetMapping("/admin/user/{id}")
+    public User getUser(@PathVariable int id) {
+        return userService.readById(id);
+    }
+
     @PostMapping("/admin/save")
     public ResponseEntity<?> create(@RequestBody User user) {
         userService.create(user);
