@@ -16,8 +16,10 @@ public class Role implements GrantedAuthority {
     @GeneratedValue
             (strategy = GenerationType.IDENTITY)
     private Integer id;
+
+
     @Column(nullable = false
-//            , unique = true
+            , unique = true
     )
     private String role;
 
@@ -33,6 +35,10 @@ public class Role implements GrantedAuthority {
         this.role = role;
     }
 
+    public Role(Integer id, String role) {
+        this.id = id;
+        this.role = role;
+    }
 
     public Integer getId() {
         return id;
@@ -65,20 +71,20 @@ public class Role implements GrantedAuthority {
         return role;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Role)) return false;
-
-        Role role1 = (Role) o;
-
-        return role.equals(role1.role);
-    }
-
-    @Override
-    public int hashCode() {
-        return role.hashCode();
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof Role)) return false;
+//
+//        Role role1 = (Role) o;
+//
+//        return role.equals(role1.role);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return role.hashCode();
+//    }
 
     //    @Override
 //    public boolean equals(Object o) {
@@ -99,20 +105,20 @@ public class Role implements GrantedAuthority {
 //    }
 
 
-//        @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (!(o instanceof Role)) return false;
-//
-//        Role role = (Role) o;
-//
-//        return id != null ? id.equals(role.id) : role.id == null;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return id != null ? id.hashCode() : 0;
-//    }
+        @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Role)) return false;
+
+        Role role = (Role) o;
+
+        return id != null ? id.equals(role.id) : role.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 
     @Override
     public String toString() {

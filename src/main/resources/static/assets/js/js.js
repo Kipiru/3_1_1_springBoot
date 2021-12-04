@@ -9,7 +9,7 @@ function buildTable(data) {
     const table = document.getElementById('usersTable');
     for (let i = 0; i < data.length; i++) {
         let userRoles = "";
-        for(let j = 0; j < data[i].roles.length; j++) {
+        for (let j = 0; j < data[i].roles.length; j++) {
             let getRoles = data[i].roles[j].role + " ";
             userRoles += getRoles;
         }
@@ -32,7 +32,7 @@ function buildTable(data) {
     }
 }
 
-function deleteUser(id){
+function deleteUser(id) {
     let url = '/admin/delete/' + id;
     fetch(url, {
         method: 'DELETE'
@@ -42,9 +42,8 @@ function deleteUser(id){
     setTimeout(table.deleteRow(id).reload(), 500);
 }
 
-function updateData()
-{
-   location.reload();
+function updateData() {
+    location.reload();
 }
 
 function showEditModalWindow(id) {
@@ -77,31 +76,41 @@ function showEditModalWindow(id) {
 async function updateUser() {
 
     let userId = document.getElementById("ID").value;
-    let userName = document.getElementById("Name").value;
-    let userLastname = document.getElementById("Lastname").value;
-    let userAge = document.getElementById("Age").value;
-    let userPassword = document.getElementById("Password").value;
-    let rolesSet = document.getElementById("Roles").value;
-    // let rolesSet = $('#Roles').val();
+    // let userName = document.getElementById("Name").value;
+    // let userLastname = document.getElementById("Lastname").value;
+    // let userAge = document.getElementById("Age").value;
+    // let userPassword = document.getElementById("Password").value;
+    // // let rolesSet = document.getElementById("Roles").value.role;
+    // let stringRole = $('#Roles').val().role;
 
     // const iteratorRoles = rolesSet.values();
+    // let user =
+    //     {
+    //         id: userId,
+    //         name: userName,
+    //         lastName: userLastname,
+    //         age: userAge,
+    //         password: userPassword,
+    //         roles: stringRole
+    //         // roles: userRoles
+    //         // roles: [{
+    //         //     role: iteratorRoles.next().value
+    //         // }]
+    //     }
+
     let user =
         {
-            id: userId,
-            name: userName,
-            lastName: userLastname,
-            age: userAge,
-            password: userPassword,
-            roles: [rolesSet]
-            // roles: userRoles
-            // roles: [{
-            //     role: iteratorRoles.next().value
-            // }]
+            id: document.getElementById("ID").value,
+            name:document.getElementById("Name").value,
+            lastName: document.getElementById("Lastname").value,
+            age: document.getElementById("Age").value,
+            password: document.getElementById("Password").value,
+            roles: $('#Roles').val()
         }
 
     const urlUPDATE = '/admin/update/' + userId;
     const putMethod = {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
             'Content-type': 'application/json; charset=UTF-8'
         },
@@ -112,6 +121,7 @@ async function updateUser() {
         .then(data => console.log(data))
         .catch(err => console.log(err))
 }
+
 //
 // function createNewFunction() {
 //     let nameForNew = document.getElementById("nameForNew").value;

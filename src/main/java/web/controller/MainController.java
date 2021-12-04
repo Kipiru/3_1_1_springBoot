@@ -78,7 +78,7 @@ public class MainController {
     }
 
 
-    @PutMapping("/admin/update/{id}")
+    @PatchMapping("/admin/update/{id}")
     public ResponseEntity<?> updateUser(@PathVariable(value = "id") int id, @RequestBody User user) {
         boolean updated = userService.updateUser(user, id);
         return updated ? new ResponseEntity<>(HttpStatus.OK)
