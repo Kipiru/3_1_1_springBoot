@@ -2,6 +2,7 @@ package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -78,7 +79,9 @@ public class MainController {
     }
 
 
-    @PatchMapping("/admin/update/{id}")
+    @PutMapping(value = "/admin/update/{id}"
+//            , consumes = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<?> updateUser(@PathVariable(value = "id") int id, @RequestBody User user) {
         boolean updated = userService.updateUser(user, id);
         return updated ? new ResponseEntity<>(HttpStatus.OK)

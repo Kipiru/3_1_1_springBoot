@@ -25,7 +25,7 @@ public class User implements UserDetails {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER
-            , cascade = CascadeType.MERGE
+            , cascade = {CascadeType.MERGE}
     )
 //    @JoinTable(
 //            name = "user_role",
@@ -53,16 +53,16 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public User(int id, String name, String lastName, int age, String password, String[] stingRoles) {
-        this.id = id;
-        this.name = name;
-        this.lastName = lastName;
-        this.age = age;
-        this.password = password;
-        for(String role : stingRoles){
-            this.roles.add(new Role(role));
-        }
-    }
+//    public User(int id, String name, String lastName, int age, String password, String[] stingRoles) {
+//        this.id = id;
+//        this.name = name;
+//        this.lastName = lastName;
+//        this.age = age;
+//        this.password = password;
+//        for(String role : stingRoles){
+//            this.roles.add(new Role(role));
+//        }
+//    }
 
     public int getId() {
         return id;
@@ -124,6 +124,22 @@ public class User implements UserDetails {
     }
 
 
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof User)) return false;
+//
+//        User user = (User) o;
+//
+//        return id == user.id;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return id;
+//    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -131,12 +147,23 @@ public class User implements UserDetails {
 
         User user = (User) o;
 
-        return id == user.id;
+        if (id != user.id) return false;
+        if (age != user.age) return false;
+        if (!name.equals(user.name)) return false;
+        if (!lastName.equals(user.lastName)) return false;
+        if (!password.equals(user.password)) return false;
+        return roles.equals(user.roles);
     }
 
     @Override
     public int hashCode() {
-        return id;
+        int result = id;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + lastName.hashCode();
+        result = 31 * result + age;
+        result = 31 * result + password.hashCode();
+        result = 31 * result + roles.hashCode();
+        return result;
     }
 
     @Override
