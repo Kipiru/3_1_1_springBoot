@@ -53,6 +53,17 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public User(int id, String name, String lastName, int age, String password, String[] stingRoles) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.age = age;
+        this.password = password;
+        for(String role : stingRoles){
+            this.roles.add(new Role(role));
+        }
+    }
+
     public int getId() {
         return id;
     }
@@ -88,9 +99,17 @@ public class User implements UserDetails {
      public Set<Role> getRoles() {
         return roles;
     }
+
+    public Set<Role> getRolesFromStringArray(String[] rolesArray){
+        for (String role : rolesArray){
+            roles.add(new Role(role));
+        }
+        return roles;
+    }
 //    public Set<String> getRoleNames() {
-//        return (Set<String>) roles.stream().map(Role::getRole).collect(Collectors.toList());
+//        return (Set<String>) roles.stream().map(Role::getRoleName).collect(Collectors.toList());
 //    }
+
 //    public String getRoles() {
 //
 //        return roles.stream().map(x -> x.getRoles())

@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public User readById(int id) {
-        if(userDao.findById(id).isPresent()) {
+        if (userDao.findById(id).isPresent()) {
             return userDao.findById(id).get();
         }
         return null;
@@ -72,6 +72,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userFromDb.get().setAge(user.getAge());
             userFromDb.get().setPassword(user.getPassword());
             userFromDb.get().setRoles(roleService.getRoleSet(user.getRoles()));
+//            userFromDb.get().setRoles(user.getRoles());
+//            userFromDb.get().setRoles(roleService.getRoleSet(user.getRolesFromStringArray()));
             userDao.save(userFromDb.get());
             return true;
         }

@@ -10,7 +10,7 @@ function buildTable(data) {
     for (let i = 0; i < data.length; i++) {
         let userRoles = "";
         for (let j = 0; j < data[i].roles.length; j++) {
-            let getRoles = data[i].roles[j].role + " ";
+            let getRoles = data[i].roles[j].roleName + " ";
             userRoles += getRoles;
         }
         let row =
@@ -62,7 +62,7 @@ function showEditModalWindow(id) {
             $(".modal-body #Password").val(user.password);
             $(".modal-body #Roles").val(user.roles);
 
-            $(document).on("click", ".toUpdate", function () {
+            $("#editButton").on('click', function () {
                 updateUser();
                 // window.location = "http://localhost:8080/admin/users";
             });
@@ -76,38 +76,25 @@ function showEditModalWindow(id) {
 async function updateUser() {
 
     let userId = document.getElementById("ID").value;
-    // let userName = document.getElementById("Name").value;
-    // let userLastname = document.getElementById("Lastname").value;
-    // let userAge = document.getElementById("Age").value;
-    // let userPassword = document.getElementById("Password").value;
-    // // let rolesSet = document.getElementById("Roles").value.role;
-    // let stringRole = $('#Roles').val().role;
+    let arr = [];
 
-    // const iteratorRoles = rolesSet.values();
-    // let user =
-    //     {
-    //         id: userId,
-    //         name: userName,
-    //         lastName: userLastname,
-    //         age: userAge,
-    //         password: userPassword,
-    //         roles: stringRole
-    //         // roles: userRoles
-    //         // roles: [{
-    //         //     role: iteratorRoles.next().value
-    //         // }]
-    //     }
+    // $("#Roles option").each(function()
+    // {
+    //     arr.push($(this).val());
+    // });
 
     let user =
         {
             id: document.getElementById("ID").value,
-            name:document.getElementById("Name").value,
+            name: document.getElementById("Name").value,
             lastName: document.getElementById("Lastname").value,
             age: document.getElementById("Age").value,
             password: document.getElementById("Password").value,
-            roles: $('#Roles').val()
+            roles: $( "#Roles" ).val() || []
         }
 
+    // roles: $('#Roles').val() || []
+    // roles: $("#Roles #foo option:selected").val()
     const urlUPDATE = '/admin/update/' + userId;
     const putMethod = {
         method: 'PATCH',
@@ -119,8 +106,11 @@ async function updateUser() {
     fetch(urlUPDATE, putMethod)
         .then(response => response.json())
         .then(data => console.log(data))
-        .catch(err => console.log(err))
+        .catch(err => console.log(err));
+    $("#editModalWindow .close").click();
 }
+
+
 
 //
 // function createNewFunction() {

@@ -1,7 +1,6 @@
 package web.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -21,7 +20,7 @@ public class Role implements GrantedAuthority {
     @Column(nullable = false
             , unique = true
     )
-    private String role;
+    private String roleName;
 
     @JsonBackReference
     @ManyToMany(mappedBy = "roles")
@@ -31,13 +30,13 @@ public class Role implements GrantedAuthority {
     }
 
 
-    public Role(String role) {
-        this.role = role;
+    public Role(String roleName) {
+        this.roleName = roleName;
     }
 
-    public Role(Integer id, String role) {
+    public Role(Integer id, String roleName) {
         this.id = id;
-        this.role = role;
+        this.roleName = roleName;
     }
 
     public Integer getId() {
@@ -48,12 +47,12 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
-    public String getRole() {
-        return role;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoleName(String role) {
+        this.roleName = role;
     }
 
     public Set<User> getUsers() {
@@ -68,7 +67,7 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return role;
+        return roleName;
     }
 
 //    @Override
@@ -122,6 +121,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return String.valueOf(role);
+        return String.valueOf(roleName);
     }
 }
