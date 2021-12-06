@@ -39,33 +39,21 @@ public class MainController {
     @GetMapping({"/admin", "/user"})
     public ModelAndView mainView(@AuthenticationPrincipal User curUser) {
         User currentUser = userService.getUserByName(curUser.getName());
-        List<User> userList = userService.getAll();
-        List<Role> roles = roleService.getAll();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("mainView");
-        modelAndView.addObject("userList", userList);
-        modelAndView.addObject("roles", roles);
         modelAndView.addObject("currentUser", currentUser);
-        User user = new User();
-        modelAndView.addObject("user", user);
         return modelAndView;
     }
+
     @GetMapping("/admin/users")
     public List<User> allUsers() {
-
         return userService.getAll();
-
     }
 
-//    @GetMapping("/admin/users")
-//    public ResponseEntity<List<User>> allUsers() {
-//
-//        List<User> userList = userService.getAll();
-//
-//        return userList != null && !userList.isEmpty()
-//                ? new ResponseEntity<>(userList, HttpStatus.OK)
-//                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
+    @GetMapping("/admin/roles")
+    public List<Role> allRoles() {
+        return roleService.getAll();
+    }
 
     @GetMapping("/admin/user/{id}")
     public User getUser(@PathVariable int id) {
@@ -79,9 +67,7 @@ public class MainController {
     }
 
 
-    @PutMapping(value = "/admin/update/{id}"
-//            , consumes = MediaType.APPLICATION_JSON_VALUE
-    )
+    @PutMapping(value = "/admin/update/{id}")
     public ResponseEntity<?> updateUser(@PathVariable(value = "id") int id, @RequestBody User user) {
         boolean updated = userService.updateUser(user, id);
         return updated ? new ResponseEntity<>(HttpStatus.OK)

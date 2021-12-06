@@ -126,10 +126,10 @@
                                                                             <div class="container">
                                                                                 <label for="newRoles" class="text-center" style="width: 240px;">Select
                                                                                     Roles(Multiple):</label>
-                                                                                <select id="newRoles" th:field="*{roles}"
+                                                                                <select id="newRoles" class = "Roles"
                                                                                                                       multiple="multiple">
-                                                                                    <option th:each="role: ${roles}"
-                                                                                            th:value="${role}" th:text="${role.roleName}">
+<!--                                                                                    <option th:each="role: ${roles}"-->
+<!--                                                                                            th:value="${role}" th:text="${role.roleName}">-->
                                                                                 </select>
                                                                             </div>
                                                                             <button type="submit" class="btn btn-success btn-lg" onclick=addNewUser()> Add new user</button>
@@ -215,12 +215,13 @@
                                                    class="control-label"
                                                    style="width: 240px;">Select
                                                 Roles(Multiple):</label>
-                                            <select id="Roles" class="form-control"
-                                                    th:field="*{roles}"
-                                                    multiple="multiple">
-                                                <option th:each="role: ${roles}"
-                                                        th:value="${role.roleName}"
-                                                        th:text="${role.roleName}">
+                                            <select id="Roles" class = "Roles" multiple="multiple">
+<!--                                                    class="form-control"-->
+
+
+<!--                                                <option th:each="role: ${roles}"-->
+<!--                                                        th:value="${role.roleName}"-->
+<!--                                                        th:text="${role.roleName}">-->
                                             </select>
                                         </div>
                                         <div class="modal-footer">
