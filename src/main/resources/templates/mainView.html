@@ -236,7 +236,7 @@
                     <div class="table-responsive">
                         <h1>User information page</h1>
                         <h2>About user</h2>
-                        <table class="table table-striped">
+                        <table id="currentUserTable" class="table table-striped">
                             <thead>
                             <tr>
                                 <th style="width: 88px;">ID</th>
@@ -247,16 +247,6 @@
                                 <th style="width: 182px;">Role</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td><span th:text="${currentUser.id}">  </span></td>
-                                <td><span th:text="${currentUser.name}">  </span></td>
-                                <td><span th:text="${currentUser.lastName}">  </span></td>
-                                <td><span th:text="${currentUser.age}"> </span></td>
-                                <td><span th:text="${currentUser.password}"> </span></td>
-                                <td><span th:text="${currentUser.roles}"> </span></td>
-                            </tr>
-                            </tbody>
                         </table>
 
                     </div>

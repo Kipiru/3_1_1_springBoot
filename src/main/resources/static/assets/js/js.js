@@ -27,6 +27,23 @@ function userAuthority(data) {
             `<strong><p>${data.roles[i].roleName}</p></strong>`;
         currentRoles.innerHTML += row;
     }
+    const table = document.getElementById("currentUserTable");
+    let userRoles = "";
+    for (let j = 0; j < data.roles.length; j++) {
+        let getRoles = data.roles[j].roleName + " ";
+        userRoles += getRoles;
+    }
+    table.innerHTML =
+        `<tr>
+                        <td>${data.id}</td>
+                        <td>${data.name}</td>
+                        <td>${data.lastName}</td>
+                        <td>${data.age}</td>
+                        <td>${data.password}</td>
+                        <td>${userRoles}</td>
+                    </tr>`
+
+
 }
 
 function buildTable(data) {
@@ -77,9 +94,6 @@ function deleteUser(id) {
     setTimeout(table.deleteRow(id).reload(), 500);
 }
 
-function updateData() {
-    location.reload();
-}
 
 function showEditModalWindow(id) {
     let url = '/admin/user/' + id;
