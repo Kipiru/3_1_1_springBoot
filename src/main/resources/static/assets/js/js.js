@@ -5,6 +5,13 @@ fetch('/admin/users')
     })
     .catch(console.error);
 
+fetch('/admin/roles')
+    .then(response => response.json())
+    .then(data => {
+        showRoles(data);
+    })
+    .catch(console.error);
+
 function buildTable(data) {
     const table = document.getElementById('usersTable');
     for (let i = 0; i < data.length; i++) {
@@ -29,6 +36,17 @@ function buildTable(data) {
                         </td>
                     </tr>`
         table.innerHTML += row;
+    }
+}
+
+function showRoles(data) {
+    const updateSelect = document.getElementById("Roles");
+    const newSelect = document.getElementById("newRoles");
+    for (let i = 0; i < data.length; i++) {
+        let row =
+            `<option>${data[i].roleName}</option>`;
+        updateSelect.innerHTML += row;
+        newSelect.innerHTML += row;
     }
 }
 
@@ -60,25 +78,24 @@ function showEditModalWindow(id) {
             $(".modal-body #Lastname").val(user.lastName);
             $(".modal-body #Age").val(user.age);
             $(".modal-body #Password").val(user.password);
-            // $(".modal-body #Roles").val(user.roles);
 
             $(document).on("click", ".toUpdate", function () {
-                updateUser(id);
-                location.reload();
-                // window.location = "/admin";
+                updateUser(id).then(function () {
+
+                        // setTimeout(function(){
+                        //     $( "#usersTable" ).load( "/admin #usersTable" );
+                        // }, 500);
+                        //
+                        // setTimeout(function(){fetch('/admin/users')
+                        //     .then(response => response.json())
+                        //     .then(data => {
+                        //         buildTable(data);
+                        //     })
+                        //     .catch(console.error);}, 1000);
+                        location.reload();
+                    }
+                )
             });
-
-
-
-            // $("#editButton").on('click', function () {
-            //     updateUser()
-            //         .then(function(){
-            //             const table = document.getElementById('usersTable');
-            //             setTimeout(table.load(), 500);
-            //         })
-            //
-            //     // window.location = "http://localhost:8080/admin/users";
-            // });
         })
         .catch(function (err) {
             console.log(err);
@@ -94,10 +111,8 @@ function addNewUser() {
     let lastName = document.getElementById('newLastname').value;
     let age = document.getElementById('newAge').value;
     let password = document.getElementById('newPassword').value;
-    let roles = Array.prototype.slice.call(
-        document.querySelectorAll('#newRoles option:checked'),0).map(function(v) {
-        return v.value;
-    });
+    let roles = Array.from(document.querySelector("#newRoles")).filter(option => option.selected)
+        .map(option => option.value);
     fetch("/admin/save", {
         method: "POST",
         headers: {
@@ -111,12 +126,14 @@ function addNewUser() {
             password: password,
             roles: roles
         })
+    }).then(function () {
+        window.location = "/admin";
     });
 }
 
 
+//                    EDIT USER
 async function updateUser() {
-
     let user =
         {
             id: ID.value,
@@ -146,26 +163,5 @@ async function updateUser() {
 }
 
 
-//
-// function createNewFunction() {
-//     let nameForNew = document.getElementById("nameForNew").value;
-//     let descripForNew = document.getElementById("descripForNew").value;
-//     let priceForNew = document.getElementById("priceForNew").value;
-//     let providersForNew = document.getElementById("providersForNew").value;
-//     let good =
-//         {
-//             name: nameForNew,
-//             description: descripForNew,
-//             price: priceForNew,
-//             providers: providersForNew
-//         }
-//
-//     fetch('http://localhost:8080/api/v1/goods/', {
-//         method: 'PUT',
-//         headers: {
-//             'Content-Type': 'application/json;charset=utf-8'
-//         },
-//         body: JSON.stringify(good)
-//     });
-// };
+
 
