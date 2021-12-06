@@ -1,3 +1,10 @@
+fetch('/auth')
+    .then(response => response.json())
+    .then(data => {
+        userAuthority(data);
+    })
+    .catch(console.error);
+
 fetch('/admin/users')
     .then(response => response.json())
     .then(data => {
@@ -11,6 +18,16 @@ fetch('/admin/roles')
         showRoles(data);
     })
     .catch(console.error);
+
+function userAuthority(data) {
+    document.getElementById("currentUser").innerHTML = `<strong><p>${data.name}</p></strong>`;
+    const currentRoles = document.getElementById("currentRoles");
+    for (let i = 0; i < data.roles.length; i++) {
+        let row =
+            `<strong><p>${data.roles[i].roleName}</p></strong>`;
+        currentRoles.innerHTML += row;
+    }
+}
 
 function buildTable(data) {
     const table = document.getElementById('usersTable');
