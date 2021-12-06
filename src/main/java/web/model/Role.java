@@ -18,14 +18,10 @@ public class Role implements GrantedAuthority {
     private Integer id;
 
 
-    @Column(nullable = false
-//            , unique = true
-    )
-//    @JsonValue
+    @Column(nullable = false, unique = true)
     private String roleName;
 
     @JsonBackReference
-  //  @Transient
     @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE})
     private Set<User> users = new HashSet<>();
 
@@ -72,56 +68,6 @@ public class Role implements GrantedAuthority {
     public String getAuthority() {
         return roleName;
     }
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (!(o instanceof Role)) return false;
-//
-//        Role role1 = (Role) o;
-//
-//        return role.equals(role1.role);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return role.hashCode();
-//    }
-
-    //    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//
-//        if (!(o instanceof Role))
-//            return false;
-//
-//        Role other = (Role) o;
-//
-//        return id != null &&
-//                id.equals(other.getId());
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return getClass().hashCode();
-//    }
-
-//
-//        @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (!(o instanceof Role)) return false;
-//
-//        Role role = (Role) o;
-//
-//        return id != null ? id.equals(role.id) : role.id == null;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return id != null ? id.hashCode() : 0;
-//    }
-
 
     @Override
     public boolean equals(Object o) {

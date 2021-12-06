@@ -38,17 +38,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public boolean create(User user) {
-//        Set<Role> roles = user.getRoles();
         User newUser = new User();
         newUser.setName(user.getName());
         newUser.setLastName(user.getLastName());
         newUser.setAge(user.getAge());
         newUser.setPassword(user.getPassword());
         newUser.setRoles(roleService.getRoleSet(user.getRoles()));
-//        for (Role r:
-//             roles) {
-//            roleService.create(r);
-//        }
         userDao.save(newUser);
         return true;
     }
@@ -86,8 +81,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userFromDb.get().setAge(user.getAge());
             userFromDb.get().setPassword(user.getPassword());
             userFromDb.get().setRoles(roleService.getRoleSet(user.getRoles()));
-//            userFromDb.get().setRoles(user.getRoles());
-//            userFromDb.get().setRoles(roleService.getRoleSet(user.getRolesFromStringArray()));
             userDao.save(userFromDb.get());
             return true;
         }

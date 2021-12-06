@@ -53,16 +53,6 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-//    public User(int id, String name, String lastName, int age, String password, String[] stingRoles) {
-//        this.id = id;
-//        this.name = name;
-//        this.lastName = lastName;
-//        this.age = age;
-//        this.password = password;
-//        for(String role : stingRoles){
-//            this.roles.add(new Role(role));
-//        }
-//    }
 
     public int getId() {
         return id;
@@ -106,39 +96,10 @@ public class User implements UserDetails {
         }
         return roles;
     }
-//    public Set<String> getRoleNames() {
-//        return (Set<String>) roles.stream().map(Role::getRoleName).collect(Collectors.toList());
-//    }
-
-//    public String getRoles() {
-//
-//        return roles.stream().map(x -> x.getRoles())
-//
-//                .distinct()
-//
-//                .collect(Collectors.joining(", "));
-//    }
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
-
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (!(o instanceof User)) return false;
-//
-//        User user = (User) o;
-//
-//        return id == user.id;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return id;
-//    }
-
 
     @Override
     public boolean equals(Object o) {

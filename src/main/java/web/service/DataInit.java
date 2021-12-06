@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import web.model.Role;
 import web.model.User;
 import javax.annotation.PostConstruct;
-import java.lang.reflect.Array;
 import java.util.HashSet;
 import java.util.Set;
 
