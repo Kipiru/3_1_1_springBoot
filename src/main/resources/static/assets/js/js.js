@@ -64,7 +64,8 @@ function showEditModalWindow(id) {
 
             $(document).on("click", ".toUpdate", function () {
                 updateUser(id);
-                window.location = "/admin";
+                location.reload();
+                // window.location = "/admin";
             });
 
 
@@ -116,40 +117,19 @@ function addNewUser() {
 
 async function updateUser() {
 
-    let userId = document.getElementById("ID").value;
-    // let arr = [];
-
-    // $("#Roles option").each(function()
-    // {
-    //     arr.push($(this).val());
-    // });
-    // var selected = [];
-    // for (var option of document.getElementById('Roles').options)
-    // {
-    //     if (option.selected) {
-    //         selected.push(option.value);
-    //     }
-    // }
-    // var selectedArray = Array.from(selected);
-
-    let roleForUser = Array.prototype.slice.call(
-        document.querySelectorAll('#Roles option:checked'),0).map(function(v) {
-        return v.value;
-    });
     let user =
         {
-            id: document.getElementById("ID").value,
-            name: document.getElementById("Name").value,
-            lastName: document.getElementById("Lastname").value,
-            age: document.getElementById("Age").value,
-            password: document.getElementById("Password").value,
-            roles:
-                roleForUser
+            id: ID.value,
+            name: Name.value,
+            lastName: Lastname.value,
+            age: Age.value,
+            password: Password.value,
+            roles: Array.from(document.querySelector("#Roles")).filter(option => option.selected)
+                .map(option => option.value)
         }
-    // Array.from(document.getElementById("Roles").selectedOptions).map(role => role.value)
-    // roles: $('#Roles').val() || []
-    // roles: $("#Roles #foo option:selected").val()
-    const urlUPDATE = '/admin/update/' + userId;
+
+    console.log(JSON.stringify(user))
+    const urlUPDATE = '/admin/update/' + user.id;
     const putMethod = {
         method: 'PUT',
         headers: {

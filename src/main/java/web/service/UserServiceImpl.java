@@ -6,10 +6,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDao;
+import web.model.Role;
 import web.model.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -36,6 +38,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public boolean create(User user) {
+        Set<Role> roles = user.getRoles();
+        for (Role r:
+             roles) {
+            roleService.create(r);
+        }
         userDao.save(user);
         return true;
     }
@@ -55,6 +62,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     public boolean delete(int id) {
         Optional<User> user = userDao.findById(id);
+
         if (user.isPresent()) {
             userDao.delete(user.get());
             return true;

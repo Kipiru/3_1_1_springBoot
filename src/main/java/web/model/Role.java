@@ -25,7 +25,7 @@ public class Role implements GrantedAuthority {
     private String roleName;
 
     @JsonBackReference
-    @Transient
+  //  @Transient
     @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE})
     private Set<User> users = new HashSet<>();
 
