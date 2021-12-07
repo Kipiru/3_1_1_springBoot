@@ -6,12 +6,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDao;
-import web.model.Role;
 import web.model.User;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -38,13 +35,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public boolean create(User user) {
-        User newUser = new User();
-        newUser.setName(user.getName());
-        newUser.setLastName(user.getLastName());
-        newUser.setAge(user.getAge());
-        newUser.setPassword(user.getPassword());
-        newUser.setRoles(roleService.getRoleSet(user.getRoles()));
-        userDao.save(newUser);
+        user.setRoles(roleService.getRoleSet(user.getRoles()));
+        userDao.save(user);
         return true;
     }
 
@@ -74,17 +66,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public boolean updateUser(User user, int id) {
-        Optional<User> userFromDb = userDao.findById(id);
-        if (userFromDb.isPresent()) {
-            userFromDb.get().setName(user.getName());
-            userFromDb.get().setLastName(user.getLastName());
-            userFromDb.get().setAge(user.getAge());
-            userFromDb.get().setPassword(user.getPassword());
-            userFromDb.get().setRoles(roleService.getRoleSet(user.getRoles()));
-            userDao.save(userFromDb.get());
-            return true;
-        }
-        return false;
+        return create(user);
     }
 
     @Override
