@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import web.model.Role;
 import web.model.User;
@@ -20,11 +21,13 @@ public class RController {
 
     private final UserService userService;
     private final RoleService roleService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public RController(UserService userService, RoleService roleService) {
+    public RController(UserService userService, RoleService roleService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
         this.roleService = roleService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @GetMapping("/auth")
@@ -49,6 +52,7 @@ public class RController {
 
     @PostMapping("/admin/save")
     public ResponseEntity<?> create(@RequestBody User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.create(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -56,6 +60,10 @@ public class RController {
 
     @PutMapping(value = "/admin/update/{id}")
     public ResponseEntity<?> updateUser(@PathVariable(value = "id") int id, @RequestBody User user) {
+        User oldUser = userService.readById(id);
+        if(!user.getPassword().equals(oldUser.getPassword())){
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        }
         boolean updated = userService.updateUser(user, id);
         return updated ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);

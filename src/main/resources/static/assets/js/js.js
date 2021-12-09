@@ -112,17 +112,6 @@ function showEditModalWindow(id) {
 
             $(document).on("click", ".toUpdate", function () {
                 updateUser(id).then(function () {
-
-                        // setTimeout(function(){
-                        //     $( "#usersTable" ).load( "/admin #usersTable" );
-                        // }, 500);
-                        //
-                        // setTimeout(function(){fetch('/admin/users')
-                        //     .then(response => response.json())
-                        //     .then(data => {
-                        //         buildTable(data);
-                        //     })
-                        //     .catch(console.error);}, 1000);
                         location.reload();
                     }
                 )

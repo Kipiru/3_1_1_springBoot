@@ -26,20 +26,20 @@ public class DataInit {
         Set<Role> adminSet = new HashSet<>();
         adminSet.add(adminRole);
         roleService.create(adminRole);
-        User admin = new User("ADMIN", "ADMIN", 10, "ADMIN",adminSet);
+        User admin = new User("ADMIN", "ADMIN", 10, "$2a$12$6Vpq4WUwqhryMWhn8Ppx9uzcqNOOeJKf8YJM6tk68jomoyq3lHGH6",adminSet);
         userService.create(admin);
 
         Role userRole = new Role("ROLE_USER");
         Set<Role> userSet = new HashSet<>();
         userSet.add(userRole);
         roleService.create(userRole);
-        User user = new User("USER", "USER", 20, "USER", userSet);
+        User user = new User("USER", "USER", 20, "$2a$12$6524/dILxrxSCmRpvM3pq.RomUwgABczQJmTiD2GYp6Xj/FfxwrvK", userSet);
         userService.create(user);
 
         Set<Role> bothRoles = new HashSet<>();
         bothRoles.add(adminRole);
         bothRoles.add(userRole);
-        User adminUser = new User("adminuser", "adminuser", 30, "adminuser", bothRoles);
+        User adminUser = new User("adminuser", "adminuser", 30, "$2a$12$fxKn3w9YaK3NB0HUylct3OGvg8gb5.1IzTbEHwjCaHosadlSlK8ra\n", bothRoles);
         userService.create(adminUser);
     }
 }
